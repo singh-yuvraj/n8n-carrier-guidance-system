@@ -1,0 +1,148 @@
+{
+  "name": "final",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "85c21351-c2cc-47c7-8c49-19859bbe616c",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -48,
+        -112
+      ],
+      "id": "61d8d247-93e5-4f43-b4ec-fd4550febe89",
+      "name": "Webhook",
+      "webhookId": "85c21351-c2cc-47c7-8c49-19859bbe616c"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Webhook').item.json.body['Email:'] }}",
+        "subject": "Carrier guide",
+        "message": "={{ $json.message.content }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        608,
+        -112
+      ],
+      "id": "1bf2e751-65ae-4e1e-bf7c-eb71efac39be",
+      "name": "Send a message",
+      "webhookId": "0e890ece-9a69-4289-8f81-16b4e5f40a61",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "DX4uAPYIJWoNtHbR",
+          "name": "Gmail account"
+        }
+      },
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "SdxuQIuHHwhDnnf3",
+          "mode": "list",
+          "cachedResultName": "sub-final"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        368,
+        -112
+      ],
+      "id": "e1c15b01-b13b-4c1f-bf19-e6369122075d",
+      "name": "Execute Workflow"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "73d0ebf6-5a19-451e-abf8-bf39cb2d1a9c",
+              "name": "name",
+              "value": "={{ $json.body['Full Name:'] }}",
+              "type": "string"
+            },
+            {
+              "id": "7fefb1ed-7a3a-4ae6-bff3-d91fffdc5c56",
+              "name": "interests",
+              "value": "={{ $json.body.Interests }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        160,
+        -112
+      ],
+      "id": "ad1f399e-66b1-4266-b992-d4a2ada91b3c",
+      "name": "Edit Fields"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute Workflow": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Execute Workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "060c8d5a-277f-484f-8291-94cb23315d4f",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "e866bbb48d1821e9ac8e9e783cd8547a8b7e7fa20419c607483a1105455199f9"
+  },
+  "id": "uOmw1FWLXdLK4qqR",
+  "tags": []
+}

@@ -1,0 +1,89 @@
+{
+  "name": "sub-final",
+  "nodes": [
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "chatgpt-4o-latest",
+          "mode": "list",
+          "cachedResultName": "CHATGPT-4O-LATEST"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=I am from organization \"Summer Shool\"\nHere is a person named {{ $json.name }} who has interest in {{ $json.interests }}. Suggest a carrier path and roadmap for him. Also asign an approariate mentor.\n\n\nOnly Generate the email body that i HTML and that I can send to {{ $json.name }} describing his carrier path and assigned approprate mentor."
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        -96,
+        0
+      ],
+      "id": "7b3dc5a0-7d06-4203-af06-8ffe0e6324c6",
+      "name": "Message a model",
+      "credentials": {
+        "openAiApi": {
+          "id": "WDuRlZ58eYZmeqa3",
+          "name": "OpenAi account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "name"
+            },
+            {
+              "name": "interests"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -320,
+        0
+      ],
+      "id": "be0e29e5-7fb6-4000-8265-e3a9c9239edb",
+      "name": "When Executed by Another Workflow"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "7434233e-0ce3-479e-9ccb-ed739867f244",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "e866bbb48d1821e9ac8e9e783cd8547a8b7e7fa20419c607483a1105455199f9"
+  },
+  "id": "SdxuQIuHHwhDnnf3",
+  "tags": []
+}
